@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <parent>
+          <artifactId>springcloud</artifactId>
+          <groupId>com.sqt</groupId>
+          <version>0.0.1-SNAPSHOT</version>
+     </parent>
+     <properties>
+          <docker.image.prefix>springio</docker.image.prefix>
+     </properties>
+     <repositories>
+          <repository>
+               <id>maven-ali</id>
+               <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
+               <releases>
+                    <enabled>true</enabled>
+               </releases>
+               <snapshots>
+                    <enabled>true</enabled>
+                    <updatePolicy>always</updatePolicy>
+                    <checksumPolicy>fail</checksumPolicy>
+               </snapshots>
+          </repository>
+     </repositories>
+     <modelVersion>4.0.0</modelVersion>
+
+     <artifactId>springboot-docker</artifactId>
+
+     <dependencies>
+          <dependency>
+               <groupId>org.springframework.boot</groupId>
+               <artifactId>spring-boot-starter-web</artifactId>
+          </dependency>
+     </dependencies>
+     <build>
+          <plugins>
+               <!--解决SpringBoot打包成jar后运行提示没有主清单属性-->
+               <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <executions>
+                         <execution>
+                              <goals>
+                                   <goal>repackage</goal>
+                              </goals>
+                         </execution>
+                    </executions>
+               </plugin>
+               <!-- docker打包 -->
+               <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                         <imageName>example</imageName>
+                         <baseImage>java</baseImage>
+                         <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+                         <!-- copy the service's jar file from target into the root directory of the image -->
+                         <!-- 镜像名称  -->
+                         <imageName>dockerdemo</imageName>
+                         <!-- docker远程服务器地址 -->
+                         <dockerHost>http://192.168.1.74:2375</dockerHost>
+                         <!-- Dockerfile文件存放目录 -->
+                         <dockerDirectory>src/docker</dockerDirectory>
+                         <resources>
+                              <resource>
+                                   <targetPath>/</targetPath>
+                                   <directory>${project.build.directory}</directory>
+                                   <include>${project.build.finalName}.jar</include>
+                              </resource>
+                         </resources>
+                    </configuration>
+               </plugin>
+          </plugins>
+     </build>
+</project>

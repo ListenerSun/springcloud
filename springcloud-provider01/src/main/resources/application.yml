@@ -1,0 +1,16 @@
+server:
+  port: 9004
+
+spring:
+  application:
+    name: Provier
+eureka:
+  instance:
+    instance-id: Provier01-9004
+    prefer-ip-address: true     #访问路径可以显示IP地址
+  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://eureka01:9001/eureka/
+#      defaultZone: http://eureka01:9001/eureka/,http://eureka02:9002/eureka/,http://eureka03:9003/eureka/

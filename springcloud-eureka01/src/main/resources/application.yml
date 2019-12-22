@@ -1,0 +1,26 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: Eureka-Server01
+
+eureka:
+  instance:
+    hostname: eureka01
+  server:
+    enable-self-preservation: false  #自我保护机制关闭
+  client:
+    register-with-eureka: false   #自身不注册
+    fetch-registry: false         #是否从Eureka服务端获取服务信息
+    serviceUrl:
+#      defaultZone: http://eureka02:9002/eureka/#,http://eureka03:9003/eureka/
+      defaultZone: http://localhost:9001/eureka/
+
+#  eureka.instance.hostname指定了Eureka服务端的IP；
+#
+#  eureka.client.register-with-eureka表示是否将服务注册到Eureka服务端，由于自身就是Eureka服务端，所以设置为false；
+#
+#  eureka.client.fetch-registry表示是否从Eureka服务端获取服务信息，因为这里只搭建了一个Eureka服务端，并不需要从别的Eureka服务端同步服务信息，所以这里设置为false；
+#
+#  eureka.client.serviceUrl.defaultZone指定Eureka服务端的地址，默认值为http://localhost:8761/eureka。

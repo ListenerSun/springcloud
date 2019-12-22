@@ -1,0 +1,36 @@
+server:
+  port: 9010
+
+spring:
+  application:
+    name: cloud-gateway-9004
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+    routes:
+      - id: cloud-gateway
+        uri: https://www.baidu.com
+        order: 1
+        predicates:
+          - Path=/**
+#          filters:
+#            - SetPath=/
+
+eureka:
+  client:
+    register-with-eureka: false   #自身不注册
+    fetch-registry: true         #是否从Eureka服务端获取服务信息
+    service-url:
+      defaultZone: http://eureka01:9001/eureka/
+#eureka:
+#  instance:
+#    instance-id: cloud-gateway-9004
+#    prefer-ip-address: true     #访问路径可以显示IP地址
+#  client:
+#    #    register-with-eureka: true
+#    #    fetch-registry: true
+#    serviceUrl:
+##      defaultZone: http://eureka01:9001/eureka/,http://eureka02:9002/eureka/,http://eureka03:9003/eureka/
+#      defaultZone: http://eureka01:9001/eureka/
